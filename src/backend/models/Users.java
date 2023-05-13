@@ -1,6 +1,6 @@
 package backend.models;
 
-public class User {
+public class Users {
     public int Id;
     public String RegNo;
     public String LastName;

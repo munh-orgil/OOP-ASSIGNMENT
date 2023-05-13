@@ -3,6 +3,8 @@ import java.sql.*;
 import java.lang.reflect.*;
 import java.util.Vector;
 
+import backend.database.database;
+
 public class Model {
     public static <T> T GetValue(Class<T> klazz, ResultSet rs) {
         Field[] fields = klazz.getDeclaredFields();
@@ -53,18 +55,93 @@ public class Model {
         return res;
     }
 
-    public static <T> Vector<T> Create(T Value, final PreparedStatement prst, String queryString) {
+    public static String camelToSnake(String str) {
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        str = str.replaceAll(regex, replacement).toLowerCase();
+        return str;
+    }
+
+    public static <T> void Create(T Value) {
         Class<? extends Object> klazz = Value.getClass();
+        String className = klazz.getSimpleName();
         Field[] fields = klazz.getDeclaredFields();
-        Vector<T> res = new Vector<T>();
-
-        int idx = 0;
-        for(Field field: fields) {
-            if(field.getType().getSimpleName().equals("String")) {
-                prst.setString(idx, field.get(Value));
-            }
+        String sqlString = "insert into " + camelToSnake(className) + " values(NULL, ";
+        for(int i = 0; i < fields.length - 2; i++) {
+            sqlString += "?, ";
         }
+        sqlString += "?)";
 
-        return res;
+        Connection db = database.getConnection();
+        try {
+            PreparedStatement prst = db.prepareStatement(sqlString);
+            for(int i = 1; i < fields.length; i++) {
+                if(fields[i].getType().getSimpleName().equals("String")) {
+                    String val = (String) fields[i].get(Value);
+                    prst.setString(i, val);
+                    continue;
+                }
+                if(fields[i].getType().getSimpleName().equals("int")) {
+                    int val = (int) fields[i].get(Value);
+                    prst.setInt(i, val);
+                    continue;
+                }
+            }
+            prst.execute();
+        } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <T> void Update(T Value) {
+        Class<? extends Object> klazz = Value.getClass();
+        String className = klazz.getSimpleName();
+        Field[] fields = klazz.getDeclaredFields();
+        int n = fields.length;
+        String sqlString = "update " + camelToSnake(className) + " set ";
+        for(int i = 1; i < n - 1; i++) {
+            sqlString += camelToSnake(fields[i].getName()) + " = ?, ";
+        }
+        sqlString += camelToSnake(fields[n - 1].getName()) + " = ? ";
+        sqlString += "where id = ?;";
+
+        Connection db = database.getConnection();
+        try {
+            PreparedStatement prst = db.prepareStatement(sqlString);
+            for(int i = 1; i < n; i++) {
+                if(fields[i].getType().getSimpleName().equals("String")) {
+                    String val = (String) fields[i].get(Value);
+                    prst.setString(i, val);
+                    continue;
+                }
+                if(fields[i].getType().getSimpleName().equals("int")) {
+                    int val = (int) fields[i].get(Value);
+                    prst.setInt(i, val);
+                    continue;
+                }
+            }
+            int val = (int) fields[0].get(Value);
+            prst.setInt(n, val);
+            prst.execute();
+        } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <T> void Delete(T Value) {
+        Class<? extends Object> klazz = Value.getClass();
+        String className = klazz.getSimpleName();
+        Field[] fields = klazz.getDeclaredFields();
+        String sqlString = "delete from " + camelToSnake(className) + " where id = ?;";
+
+        Connection db = database.getConnection();
+        try {
+            PreparedStatement prst = db.prepareStatement(sqlString);
+            int val = (int) fields[0].get(Value);
+            prst.setInt(1, val);
+            prst.execute();
+        } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

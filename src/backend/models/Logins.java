@@ -1,6 +1,6 @@
 package backend.models;
 
-public class Login {
+public class Logins {
     public int Id;
     public int UserId;
     public String Username;

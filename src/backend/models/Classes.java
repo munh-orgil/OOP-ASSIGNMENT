@@ -1,6 +1,6 @@
 package backend.models;
 
-public class Class {
+public class Classes {
     public int Id;
     public int Name;
     public int TeacherId;
