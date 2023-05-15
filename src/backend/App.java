@@ -1,7 +1,6 @@
+package backend;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-
-import backend.Backend;
 
 public class App {
     public static void main(String[] args) throws UnsupportedEncodingException {
