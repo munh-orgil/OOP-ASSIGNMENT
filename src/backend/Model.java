@@ -23,7 +23,7 @@ public class Model {
                     
                     continue;
                 }
-                if(field.getType().getSimpleName().equals("Int")) {
+                if(field.getType().getSimpleName().equals("int")) {
                         try {
                             field.set(res, rs.getInt(idx));
                         } catch (IllegalArgumentException | IllegalAccessException | SQLException e) {
@@ -39,20 +39,25 @@ public class Model {
         }
     }
 
-    public static <T> Vector<T> List(Class<T> klazz, final Statement st, String queryString) {
-        Vector<T> res = new Vector<T>();
-        try (ResultSet rs = st.executeQuery(queryString)) {
+    public static <T> Vector<T> List(Class<T> klazz) {
+        Connection db = database.getConnection();
+        try {
+            Statement st = db.createStatement();
+            String className = klazz.getSimpleName();
+            String queryString = "select * from " + camelToSnake(className);
+            ResultSet rs = st.executeQuery(queryString);
+            Vector<T> res = new Vector<T>();
             int vectorIdx = 0;
             while(rs.next()) {
                 final T obj = GetValue(klazz, rs);
 
                 res.add(vectorIdx, obj);
             }
+            return res;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return res;
     }
 
     public static String camelToSnake(String str) {
