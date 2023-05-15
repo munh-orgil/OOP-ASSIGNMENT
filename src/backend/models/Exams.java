@@ -1,8 +1,8 @@
 package backend.models;
 
 public class Exams {
-    public int Id;
+    public Integer Id;
     public String Title;
     public String Description;
-    public int ClassId;
+    public Integer ClassId;
 }

@@ -1,8 +1,8 @@
 package backend.models;
 
 public class Choices {
-    public int Id;
-    public int QuestionId;
-    public int Score;
+    public Integer Id;
+    public Integer QuestionId;
+    public Integer Score;
     public String Text;
 }

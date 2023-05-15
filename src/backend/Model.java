@@ -1,6 +1,7 @@
 package backend;
 import java.sql.*;
 import java.lang.reflect.*;
+import java.util.Arrays;
 import java.util.Vector;
 
 import backend.database.database;
@@ -11,7 +12,7 @@ public class Model {
         T res;
         try {
             res = klazz.getDeclaredConstructor().newInstance();
-            int idx = 0;
+            Integer idx = 0;
             for(Field field: fields) {
                 idx++;
                 if(field.getType().getSimpleName().equals("String")) {
@@ -23,7 +24,7 @@ public class Model {
                     
                     continue;
                 }
-                if(field.getType().getSimpleName().equals("int")) {
+                if(field.getType().getSimpleName().equals("Integer")) {
                         try {
                             field.set(res, rs.getInt(idx));
                         } catch (IllegalArgumentException | IllegalAccessException | SQLException e) {
@@ -39,22 +40,77 @@ public class Model {
         }
     }
 
-    public static <T> Vector<T> List(Class<T> klazz) {
+    public static <T> Vector<T> List(Class<T> klazz, T filter) {
         Connection db = database.getConnection();
         try {
-            Statement st = db.createStatement();
             String className = klazz.getSimpleName();
+            Field[] allFields = klazz.getDeclaredFields();
+            Field[] fields = {};
+            for(Field field: allFields) {
+                Object val = field.get(filter);
+                if(val != null) {
+                    fields = Arrays.copyOf(fields, fields.length + 1);
+                    fields[fields.length - 1] = field;
+                }
+            }
+
             String queryString = "select * from " + camelToSnake(className);
-            ResultSet rs = st.executeQuery(queryString);
+            String filterString = " where ";
+            boolean ok = false;
+            for(Integer i = 0; i < fields.length - 1; i++) {
+                Field field = fields[i];
+                String name = camelToSnake(field.getName());
+                if(field.getType().getSimpleName().equals("String")) {
+                    String val = (String) field.get(filter);
+                    if(val != null) {
+                        val = "'%" + val.toLowerCase() + "%'";
+                        filterString += "lower(" + name + ") LIKE " + val + " and ";
+                        ok = true;
+                    }
+                }
+                if(field.getType().getSimpleName().equals("Integer")) {
+                    Integer val = (Integer) field.get(filter);
+                    if(val != null) {
+                        filterString += name + "=" + val.toString() + " and ";
+                        ok = true;
+                    }
+                }
+            }
+
+            String name = camelToSnake(fields[fields.length - 1].getName());
+            if(fields[fields.length - 1].getType().getSimpleName().equals("String")) {
+                String val = (String) fields[fields.length - 1].get(filter);
+                if(val != null) {
+                    val = "'%" + val.toLowerCase() + "%'";
+                    filterString += "lower(" + name + ") LIKE " + val;
+                    ok = true;
+                }
+            }
+            if(fields[fields.length - 1].getType().getSimpleName().equals("Integer")) {
+                Integer val = (Integer) fields[fields.length - 1].get(filter);
+                if(val != null) {
+                    filterString += name + "=" + val.toString();
+                    ok = true;
+                }
+            }
+
+            if(ok) {
+                queryString += filterString;
+            }
+
+            System.out.println(queryString);
+
+            Statement prst = db.createStatement();
+            ResultSet rs = prst.executeQuery(queryString);
             Vector<T> res = new Vector<T>();
-            int vectorIdx = 0;
+            Integer vectorIdx = 0;
             while(rs.next()) {
                 final T obj = GetValue(klazz, rs);
 
                 res.add(vectorIdx, obj);
             }
             return res;
-        } catch (SQLException e) {
+        } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
             return null;
         }
@@ -72,7 +128,7 @@ public class Model {
         String className = klazz.getSimpleName();
         Field[] fields = klazz.getDeclaredFields();
         String sqlString = "insert into " + camelToSnake(className) + " values(NULL, ";
-        for(int i = 0; i < fields.length - 2; i++) {
+        for(Integer i = 0; i < fields.length - 2; i++) {
             sqlString += "?, ";
         }
         sqlString += "?)";
@@ -80,14 +136,14 @@ public class Model {
         Connection db = database.getConnection();
         try {
             PreparedStatement prst = db.prepareStatement(sqlString);
-            for(int i = 1; i < fields.length; i++) {
+            for(Integer i = 1; i < fields.length; i++) {
                 if(fields[i].getType().getSimpleName().equals("String")) {
                     String val = (String) fields[i].get(Value);
                     prst.setString(i, val);
                     continue;
                 }
-                if(fields[i].getType().getSimpleName().equals("int")) {
-                    int val = (int) fields[i].get(Value);
+                if(fields[i].getType().getSimpleName().equals("Integer")) {
+                    Integer val = (Integer) fields[i].get(Value);
                     prst.setInt(i, val);
                     continue;
                 }
@@ -102,9 +158,9 @@ public class Model {
         Class<? extends Object> klazz = Value.getClass();
         String className = klazz.getSimpleName();
         Field[] fields = klazz.getDeclaredFields();
-        int n = fields.length;
+        Integer n = fields.length;
         String sqlString = "update " + camelToSnake(className) + " set ";
-        for(int i = 1; i < n - 1; i++) {
+        for(Integer i = 1; i < n - 1; i++) {
             sqlString += camelToSnake(fields[i].getName()) + " = ?, ";
         }
         sqlString += camelToSnake(fields[n - 1].getName()) + " = ? ";
@@ -113,19 +169,19 @@ public class Model {
         Connection db = database.getConnection();
         try {
             PreparedStatement prst = db.prepareStatement(sqlString);
-            for(int i = 1; i < n; i++) {
+            for(Integer i = 1; i < n; i++) {
                 if(fields[i].getType().getSimpleName().equals("String")) {
                     String val = (String) fields[i].get(Value);
                     prst.setString(i, val);
                     continue;
                 }
-                if(fields[i].getType().getSimpleName().equals("int")) {
-                    int val = (int) fields[i].get(Value);
+                if(fields[i].getType().getSimpleName().equals("Integer")) {
+                    Integer val = (Integer) fields[i].get(Value);
                     prst.setInt(i, val);
                     continue;
                 }
             }
-            int val = (int) fields[0].get(Value);
+            Integer val = (Integer) fields[0].get(Value);
             prst.setInt(n, val);
             prst.execute();
         } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
@@ -142,7 +198,7 @@ public class Model {
         Connection db = database.getConnection();
         try {
             PreparedStatement prst = db.prepareStatement(sqlString);
-            int val = (int) fields[0].get(Value);
+            Integer val = (Integer) fields[0].get(Value);
             prst.setInt(1, val);
             prst.execute();
         } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {

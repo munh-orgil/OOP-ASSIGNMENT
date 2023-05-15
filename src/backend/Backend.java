@@ -6,12 +6,13 @@ import backend.database.database;
 import backend.models.*;
 
 public class Backend {
-    public static void init() {
+    public void init() {
         database.init();
 
-        Vector<Users> list = Model.List(Users.class);
+        Users filter = new Users();
+        Vector<Users> list = Model.List(Users.class, filter);
 
-        for(int i = 0; i < list.size(); i++) {
+        for(Integer i = 0; i < list.size(); i++) {
             Users cur = list.get(i);
             System.out.println(cur.FirstName + ' ' + cur.LastName + ' ' + cur.RegNo + ' ' + cur.Gender);
         }

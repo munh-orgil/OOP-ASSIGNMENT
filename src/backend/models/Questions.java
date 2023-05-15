@@ -1,10 +1,10 @@
 package backend.models;
 
 public class Questions {
-    public int Id;
+    public Integer Id;
     public String Title;
     public String Description;
-    public int ExamId;
+    public Integer ExamId;
     public String Type;
-    public int Ord;
+    public Integer Ord;
 }
