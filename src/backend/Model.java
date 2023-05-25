@@ -77,20 +77,22 @@ public class Model {
                 }
             }
 
-            String name = camelToSnake(fields[fields.length - 1].getName());
-            if(fields[fields.length - 1].getType().getSimpleName().equals("String")) {
-                String val = (String) fields[fields.length - 1].get(filter);
-                if(val != null) {
-                    val = "'%" + val.toLowerCase() + "%'";
-                    filterString += "lower(" + name + ") LIKE " + val;
-                    ok = true;
+            if(fields.length > 0) {
+                String name = camelToSnake(fields[fields.length - 1].getName());
+                if(fields[fields.length - 1].getType().getSimpleName().equals("String")) {
+                    String val = (String) fields[fields.length - 1].get(filter);
+                    if(val != null) {
+                        val = "'%" + val.toLowerCase() + "%'";
+                        filterString += "lower(" + name + ") LIKE " + val;
+                        ok = true;
+                    }
                 }
-            }
-            if(fields[fields.length - 1].getType().getSimpleName().equals("Integer")) {
-                Integer val = (Integer) fields[fields.length - 1].get(filter);
-                if(val != null) {
-                    filterString += name + "=" + val.toString();
-                    ok = true;
+                if(fields[fields.length - 1].getType().getSimpleName().equals("Integer")) {
+                    Integer val = (Integer) fields[fields.length - 1].get(filter);
+                    if(val != null) {
+                        filterString += name + "=" + val.toString();
+                        ok = true;
+                    }
                 }
             }
 
