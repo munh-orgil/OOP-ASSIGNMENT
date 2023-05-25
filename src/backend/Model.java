@@ -40,6 +40,14 @@ public class Model {
         }
     }
 
+    public static String camelToSnake(String str) {
+
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        str = str.replaceAll(regex, replacement).toLowerCase();
+        return str;
+    }
+    
     public static <T> Vector<T> List(Class<T> klazz, T filter) {
         Connection db = database.getConnection();
         try {
@@ -118,14 +126,7 @@ public class Model {
         }
     }
 
-    public static String camelToSnake(String str) {
-        String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1_$2";
-        str = str.replaceAll(regex, replacement).toLowerCase();
-        return str;
-    }
-
-    public static <T> void Create(T Value) {
+    public static <T> int Create(T Value) {
         Class<? extends Object> klazz = Value.getClass();
         String className = klazz.getSimpleName();
         Field[] fields = klazz.getDeclaredFields();
@@ -151,9 +152,20 @@ public class Model {
                 }
             }
             prst.execute();
+            
+            sqlString = "select id from " + camelToSnake(className);
+            Statement st = db.createStatement();
+            ResultSet rs = st.executeQuery(sqlString);
+            int id = 0;
+            while(rs.next()) {
+                id = rs.getInt(1);
+            }
+            return id;
+            
         } catch (SQLException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     public static <T> void Update(T Value) {

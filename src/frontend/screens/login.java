@@ -7,64 +7,68 @@ import java.util.Vector;
 import javax.swing.*;
 
 import backend.models.Logins;
+import backend.models.Users;
+import frontend.Frontend;
+import frontend.modules.Modules;
+import frontend.screens.layout.Layout;
 import backend.Model;
 
 public class Login implements ActionListener {
     private JFrame frame;
     private JTextField usernameField, passwordField;
+    public JPanel loginPanel = new JPanel(new GridBagLayout());
 
     public Login() {
-        frame = new JFrame("Centered Login Page");
+        frame = new JFrame("Login Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        JPanel mainPanel = new JPanel(new GridBagLayout());
-        
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.fill = GridBagConstraints.BOTH;
         constraints.insets = new Insets(5, 10, 5, 10);
-        
+
         JLabel usernameLabel = new JLabel("Username:");
         constraints.gridx = 0;
         constraints.gridy = 0;
-        mainPanel.add(usernameLabel, constraints);
+        loginPanel.add(usernameLabel, constraints);
         
-        usernameField = new JTextField(15);
+        usernameField = new JTextField(20);
         constraints.gridx = 1;
         constraints.gridy = 0;
-        mainPanel.add(usernameField, constraints);
+        usernameField.setPreferredSize(new Dimension(10, 40));
+        loginPanel.add(usernameField, constraints);
         
         JLabel passwordLabel = new JLabel("Password:");
         constraints.gridx = 0;
         constraints.gridy = 1;
-        mainPanel.add(passwordLabel, constraints);
+        loginPanel.add(passwordLabel, constraints);
         
-        passwordField = new JPasswordField(15);
+        passwordField = new JPasswordField(20);
         constraints.gridx = 1;
         constraints.gridy = 1;
-        mainPanel.add(passwordField, constraints);
+        passwordField.setPreferredSize(new Dimension(10, 40));
+        loginPanel.add(passwordField, constraints);
         
         JButton loginButton = new JButton("Login");
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
-        mainPanel.add(loginButton, constraints);
+        loginButton.setPreferredSize(new Dimension(10, 40));
+        loginPanel.add(loginButton, constraints);
         
         JButton signUpButton = new JButton("Sign Up");
         constraints.gridx = 0;
         constraints.gridy = 3;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
-        mainPanel.add(signUpButton, constraints);
-
+        signUpButton.setPreferredSize(new Dimension(10, 40));
+        loginPanel.add(signUpButton, constraints);
         
-        
-        frame.add(mainPanel);
+        frame.add(loginPanel);
         loginButton.addActionListener(this);
+        signUpButton.addActionListener(this);
         
-        frame.setSize(400, 300);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        // frame.setSize(600, 480);
     }
     public void actionPerformed(ActionEvent ae) {
         JButton sourceButton = (JButton) ae.getSource();
@@ -87,7 +91,16 @@ public class Login implements ActionListener {
                     }
                 }
                 if(user.Password.equals(passValue)) {
-                    JOptionPane.showMessageDialog(null, "Success!");
+                    Vector<Logins> getUser = Model.List(Logins.class, user);
+                    int userId = getUser.get(0).UserId;
+                    Users findUser = new Users();
+                    findUser.Id = userId;
+                    Vector<Users> theUser = Model.List(Users.class, findUser);
+                    Modules.user = theUser.get(0);
+                    
+                    Frontend.frame.setVisible(false);
+                    Layout layout = new Layout();
+                    layout.frame.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Wrong password");
                 }
@@ -95,11 +108,11 @@ public class Login implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Wrong user information");
             }
         } else {
-            
+            Frontend.cardLayout.show(Frontend.mainPanel, "signUp");
         }
     }
 
-    public static void init() {
-        new Login();
-    }
+    // public static void init() {
+    //     new Login();
+    // }
 }

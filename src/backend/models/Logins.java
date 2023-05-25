@@ -6,4 +6,5 @@ public class Logins {
     public String Username;
     public String Password;
     public String ProfileImagePath;
+    public Integer isTeacher;
 }
