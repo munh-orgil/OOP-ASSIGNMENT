@@ -9,11 +9,11 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import frontend.screens.Classes;
-import frontend.screens.Exams;
+import frontend.screens.Login;
+import frontend.screens.SignUp;
 
 public class Layout {
-    public JFrame frame = new JFrame();
+    public static JFrame frame = new JFrame();
     public JPanel layoutPanel = new JPanel(new GridBagLayout());
     public static JPanel contentPanel = new JPanel();
     public static CardLayout cardLayout = new CardLayout();
@@ -21,6 +21,7 @@ public class Layout {
     public Layout() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        frame.setBackground(Color.white);
 
         // Header
         JPanel headerPanel = new JPanel();
@@ -33,9 +34,13 @@ public class Layout {
 
         // Content
         contentPanel.setBackground(Color.WHITE);
+        contentPanel.setLayout(cardLayout);
 
-        contentPanel.add(Classes.classesPanel, "classes");
-        contentPanel.add(Exams.examsPanel, "exams");
+        Login login = new Login();
+        SignUp signUp = new SignUp();
+        
+        contentPanel.add(login.loginPanel, "login");
+        contentPanel.add(signUp.signUpPanel, "signUp");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -45,7 +50,5 @@ public class Layout {
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         frame.add(mainPanel);
-
-        frame.setLocationRelativeTo(null);
     }
 }

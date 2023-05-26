@@ -11,6 +11,7 @@ import backend.models.Users;
 import frontend.Frontend;
 import frontend.modules.Modules;
 import frontend.screens.layout.Layout;
+import frontend.widgets.CustomButton;
 import backend.Model;
 
 public class Login implements ActionListener {
@@ -48,7 +49,8 @@ public class Login implements ActionListener {
         passwordField.setPreferredSize(new Dimension(10, 40));
         loginPanel.add(passwordField, constraints);
         
-        JButton loginButton = new JButton("Login");
+        CustomButton loginButton = new CustomButton("Login", 0, 50);
+        loginButton.setRadius(20);
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
@@ -56,7 +58,8 @@ public class Login implements ActionListener {
         loginButton.setPreferredSize(new Dimension(10, 40));
         loginPanel.add(loginButton, constraints);
         
-        JButton signUpButton = new JButton("Sign Up");
+        CustomButton signUpButton = new CustomButton("Sign Up", 0, 50);
+        signUpButton.setRadius(20);
         constraints.gridx = 0;
         constraints.gridy = 3;
         constraints.gridwidth = 2;
@@ -108,6 +111,8 @@ public class Login implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Wrong user information");
             }
         } else {
+            Frontend.frame.setSize(600, 500);
+            Frontend.frame.setLocation(Frontend.centerWindow(600, 500));
             Frontend.cardLayout.show(Frontend.mainPanel, "signUp");
         }
     }

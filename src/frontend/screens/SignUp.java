@@ -10,6 +10,7 @@ import backend.Model;
 import backend.models.Logins;
 import backend.models.Users;
 import frontend.Frontend;
+import frontend.widgets.CustomButton;
 
 public class SignUp implements ActionListener {
     private JFrame frame;
@@ -139,7 +140,8 @@ public class SignUp implements ActionListener {
         bGroup.add(buttonYes);
         bGroup.add(buttonNo);
         
-        JButton signUpButton = new JButton("SignUp");
+        CustomButton signUpButton = new CustomButton("SignUp", 0, 0);
+        signUpButton.setRadius(20);
         constraints.gridx = 0;
         constraints.gridy = 8;
         constraints.gridwidth = 3;
@@ -147,7 +149,8 @@ public class SignUp implements ActionListener {
         signUpButton.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(signUpButton, constraints);
         
-        JButton cancelButton = new JButton("Cancel");
+        CustomButton cancelButton = new CustomButton("Cancel", 0, 0);
+        cancelButton.setRadius(20);
         constraints.gridx = 0;
         constraints.gridy = 9;
         constraints.gridwidth = 3;
@@ -168,6 +171,8 @@ public class SignUp implements ActionListener {
         String buttonLabel = sourceButton.getText();
 
         if(buttonLabel.equals("Cancel")) {
+            Frontend.frame.setSize(600, 300);
+            Frontend.frame.setLocation(Frontend.centerWindow(600, 300));
             Frontend.cardLayout.show(Frontend.mainPanel, "login");
             return;
         }
@@ -210,8 +215,10 @@ public class SignUp implements ActionListener {
                 Model.Create(newLogin);
                 JOptionPane.showMessageDialog(null, "Profile created successfully.");
             }
+            Frontend.frame.setSize(600, 300);
+            Frontend.frame.setLocation(Frontend.centerWindow(600, 300));
+            Frontend.cardLayout.show(Frontend.mainPanel, "login");
         }
-        Frontend.cardLayout.show(Frontend.mainPanel, "login");
     }
 
     public static void init() {
