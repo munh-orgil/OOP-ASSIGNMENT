@@ -58,7 +58,14 @@ public class SwingCalendar extends JPanel {
         });
 
         String [] columns = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-        model = new DefaultTableModel(null,columns);
+        model = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+
         table = new JTable(model);
         table.setRowHeight(40);
         JScrollPane pane = new JScrollPane(table);
@@ -114,7 +121,7 @@ public class SwingCalendar extends JPanel {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = cellRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-                if (row == currentRow && column == currentCol) {
+                if (row == currentRow && column == currentCol && cal.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)) {
                     component.setBackground(Color.decode("#187bcd"));
                 } else {
                     // Reset the background color
@@ -132,5 +139,8 @@ public class SwingCalendar extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(cellCenterRenderer);
         }
         table.getColumnModel().getColumn(currentCol).setCellRenderer(customRenderer);
+
+        table.setRowSelectionAllowed(false);
+        table.setColumnSelectionAllowed(false);
     }
 }
