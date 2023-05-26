@@ -37,12 +37,13 @@ public class Login implements ActionListener {
         constraints.gridy = 0;
         usernameField.setPreferredSize(new Dimension(10, 40));
         loginPanel.add(usernameField, constraints);
+
         
         JLabel passwordLabel = new JLabel("Password:");
         constraints.gridx = 0;
         constraints.gridy = 1;
         loginPanel.add(passwordLabel, constraints);
-        
+
         passwordField = new JPasswordField(20);
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -71,6 +72,8 @@ public class Login implements ActionListener {
         loginButton.addActionListener(this);
         signUpButton.addActionListener(this);
         
+        usernameField.setText("muug");
+        passwordField.setText("1234");
         // frame.setSize(600, 480);
     }
     public void actionPerformed(ActionEvent ae) {

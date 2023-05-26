@@ -24,13 +24,16 @@ public class Layout {
         frame.setBackground(Color.white);
 
         // Header
-        JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(Color.DARK_GRAY);
-        headerPanel.setPreferredSize(new Dimension(frame.getWidth(), 100));
+        Header header = new Header();
+        JPanel headerPanel = header.header;
 
         // SideBar
         SideBar sideBar = new SideBar();
         JPanel sidebarPanel = sideBar.sideBar;
+
+        // HelpBar
+        HelpBar helpBar = new HelpBar();
+        JPanel helpbarPanel = helpBar.helpBar;
 
         // Content
         contentPanel.setBackground(Color.WHITE);
@@ -47,6 +50,7 @@ public class Layout {
 
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(sidebarPanel, BorderLayout.WEST);
+        mainPanel.add(helpbarPanel, BorderLayout.EAST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         frame.add(mainPanel);
