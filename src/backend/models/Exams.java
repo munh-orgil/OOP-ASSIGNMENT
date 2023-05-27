@@ -5,4 +5,6 @@ public class Exams {
     public String Title;
     public String Description;
     public Integer ClassId;
+    public String StartTime;
+    public Integer Duration;
 }

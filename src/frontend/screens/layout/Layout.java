@@ -3,20 +3,22 @@ package frontend.screens.layout;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
-import frontend.screens.Login;
-import frontend.screens.SignUp;
+import frontend.screens.Classes;
+import frontend.screens.Exams;
 
 public class Layout {
     public static JFrame frame = new JFrame();
     public JPanel layoutPanel = new JPanel(new GridBagLayout());
     public static JPanel contentPanel = new JPanel();
     public static CardLayout cardLayout = new CardLayout();
+    public static Exams exams = new Exams(0);
     
     public Layout() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,19 +41,22 @@ public class Layout {
         contentPanel.setBackground(Color.WHITE);
         contentPanel.setLayout(cardLayout);
 
-        Login login = new Login();
-        SignUp signUp = new SignUp();
+        Classes classes = new Classes();
         
-        contentPanel.add(login.loginPanel, "login");
-        contentPanel.add(signUp.signUpPanel, "signUp");
+        contentPanel.add(classes.classesPanel, "classes");
+        contentPanel.add(exams.examsPanel, "exams");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
+        JScrollPane scrollableContent = new JScrollPane(contentPanel);
+        JScrollBar verticalScrollBar = scrollableContent.getVerticalScrollBar();
+        verticalScrollBar.setUnitIncrement(20);
+
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(sidebarPanel, BorderLayout.WEST);
         mainPanel.add(helpbarPanel, BorderLayout.EAST);
-        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        mainPanel.add(scrollableContent, BorderLayout.CENTER);
 
         frame.add(mainPanel);
     }

@@ -28,7 +28,7 @@ public class SignUp implements ActionListener {
         constraints.insets = new Insets(5, 10, 5, 10);
         constraints.weighty = 1;
 
-        JLabel usernameLabel = new JLabel("Username:");
+        JLabel usernameLabel = new JLabel("Нэвтрэх нэр:");
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.gridwidth = 1;
@@ -42,7 +42,7 @@ public class SignUp implements ActionListener {
         usernameField.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(usernameField, constraints);
         
-        JLabel passwordLabel = new JLabel("Password:");
+        JLabel passwordLabel = new JLabel("Нууц үг:");
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
@@ -55,7 +55,7 @@ public class SignUp implements ActionListener {
         passwordField.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(passwordField, constraints);
         
-        JLabel passwordRepeatLabel = new JLabel("Repeat Password:");
+        JLabel passwordRepeatLabel = new JLabel("Нууц үг давтах:");
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 1;
@@ -68,7 +68,7 @@ public class SignUp implements ActionListener {
         passwordRepeatField.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(passwordRepeatField, constraints);
         
-        JLabel regNoLabel = new JLabel("Register Number:");
+        JLabel regNoLabel = new JLabel("Регистерийн дугаар:");
         constraints.gridx = 0;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
@@ -81,7 +81,7 @@ public class SignUp implements ActionListener {
         regNoField.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(regNoField, constraints);
 
-        JLabel lastNameLabel = new JLabel("Lastname:");
+        JLabel lastNameLabel = new JLabel("Овог:");
         constraints.gridx = 0;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
@@ -95,7 +95,7 @@ public class SignUp implements ActionListener {
         signUpPanel.add(lastNameField, constraints);
         
 
-        JLabel firstNameLabel = new JLabel("Firstname:");
+        JLabel firstNameLabel = new JLabel("Нэр:");
         constraints.gridx = 0;
         constraints.gridy = 5;
         constraints.gridwidth = 1;
@@ -108,7 +108,7 @@ public class SignUp implements ActionListener {
         firstNameField.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(firstNameField, constraints);
 
-        JLabel genderLabel = new JLabel("Gender");
+        JLabel genderLabel = new JLabel("Хүйс");
         constraints.gridx = 0;
         constraints.gridy = 6;
         constraints.gridwidth = 1;
@@ -116,17 +116,17 @@ public class SignUp implements ActionListener {
 
         Vector<String> genders = new Vector<>();
         genders.add("-");
-        genders.add("Male");
-        genders.add("Female");
+        genders.add("Эрэгтэй");
+        genders.add("Эмэгтэй");
         genderComboBox = new JComboBox<String>(genders);
         constraints.gridx = 1;
         constraints.gridy = 6;
         signUpPanel.add(genderComboBox, constraints);
 
-        buttonYes = new JRadioButton("Yes");
-        buttonNo = new JRadioButton("No");
+        buttonYes = new JRadioButton("Тийм");
+        buttonNo = new JRadioButton("Үгүй");
         ButtonGroup bGroup = new ButtonGroup();
-        JLabel isTeacherLabel = new JLabel("Are you teacher?");
+        JLabel isTeacherLabel = new JLabel("Та багш уу?");
         constraints.gridx = 0;
         constraints.gridy = 7;
         signUpPanel.add(isTeacherLabel, constraints);
@@ -140,7 +140,7 @@ public class SignUp implements ActionListener {
         bGroup.add(buttonYes);
         bGroup.add(buttonNo);
         
-        CustomButton signUpButton = new CustomButton("SignUp", 0, 0);
+        CustomButton signUpButton = new CustomButton("Бүртгүүлэх", 0, 0);
         signUpButton.setRadius(20);
         constraints.gridx = 0;
         constraints.gridy = 8;
@@ -149,7 +149,7 @@ public class SignUp implements ActionListener {
         signUpButton.setPreferredSize(new Dimension(10, 30));
         signUpPanel.add(signUpButton, constraints);
         
-        CustomButton cancelButton = new CustomButton("Cancel", 0, 0);
+        CustomButton cancelButton = new CustomButton("Болих", 0, 0);
         cancelButton.setRadius(20);
         constraints.gridx = 0;
         constraints.gridy = 9;
@@ -170,7 +170,7 @@ public class SignUp implements ActionListener {
         JButton sourceButton = (JButton) ae.getSource();
         String buttonLabel = sourceButton.getText();
 
-        if(buttonLabel.equals("Cancel")) {
+        if(buttonLabel.equals("Болих")) {
             Frontend.frame.setSize(600, 300);
             Frontend.frame.setLocation(Frontend.centerWindow(600, 300));
             Frontend.cardLayout.show(Frontend.mainPanel, "login");
@@ -191,7 +191,7 @@ public class SignUp implements ActionListener {
         sameLogin.Username = userValue;
         Vector<Logins> users = Model.List(Logins.class, sameLogin);
         if(users.size() > 0) {
-            JOptionPane.showMessageDialog(null, "Username is already taken");
+            JOptionPane.showMessageDialog(null, "Нэвтрэх нэр давхацсан байна.");
         } else {
             if(!passRepValue.equals(passValue)) {
                 JOptionPane.showMessageDialog(null, "Repeated password does not match");

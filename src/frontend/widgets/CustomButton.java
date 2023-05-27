@@ -12,6 +12,7 @@ import javax.swing.JButton;
 
 public class CustomButton extends JButton {
     private int borderRadius = 0;
+    private boolean isNav = false;
     public CustomButton(String text, int width, int height) {
         super(text);
         setOpaque(false); 
@@ -35,9 +36,13 @@ public class CustomButton extends JButton {
         if (getModel().isPressed()) {
             g2.setColor(new Color(200, 200, 200));
         } else if (getModel().isRollover()) {
-            g2.setColor(new Color(220, 220, 220));
+            if(!isNav) {
+                g2.setColor(new Color(220, 220, 220));
+            }
         } else {
-            g2.setColor(Color.white);
+            if(!isNav) {
+                g2.setColor(Color.white);
+            }
         }
 
         

@@ -39,7 +39,7 @@ public class SwingCalendar extends JPanel {
         label = new JLabel();
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        CustomButton b1 = new CustomButton("<-", 50, 40);
+        CustomButton b1 = new CustomButton("<", 50, 40);
         b1.setRadius(10);
         b1.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
@@ -48,7 +48,7 @@ public class SwingCalendar extends JPanel {
             }
         });
 
-        CustomButton b2 = new CustomButton("->", 50, 40);
+        CustomButton b2 = new CustomButton(">", 50, 40);
         b2.setRadius(10);
         b2.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
@@ -124,10 +124,8 @@ public class SwingCalendar extends JPanel {
                 if (row == currentRow && column == currentCol && cal.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)) {
                     component.setBackground(Color.decode("#187bcd"));
                 } else {
-                    // Reset the background color
                     component.setBackground(table.getBackground());
                 }
-
                 return component;
             }
         };

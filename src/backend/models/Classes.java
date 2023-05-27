@@ -2,6 +2,7 @@ package backend.models;
 
 public class Classes {
     public Integer Id;
-    public Integer Name;
+    public String Name;
     public Integer TeacherId;
+    public String Description;
 }
