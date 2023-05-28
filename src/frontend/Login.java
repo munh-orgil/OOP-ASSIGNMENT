@@ -1,12 +1,7 @@
-package frontend.screens;
+package frontend;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -14,9 +9,8 @@ import javax.swing.*;
 
 import backend.models.Logins;
 import backend.models.Users;
-import frontend.Frontend;
 import frontend.modules.Modules;
-import frontend.screens.layout.Layout;
+import frontend.student.layout.Layout;
 import frontend.widgets.CustomButton;
 import backend.Model;
 
@@ -115,8 +109,13 @@ public class Login implements ActionListener {
                     Modules.login = userLogin;
 
                     Frontend.frame.setVisible(false);
-                    Layout layout = new Layout();
-                    layout.frame.setVisible(true);
+                    if(userLogin.isTeacher == 1) {
+                        frontend.teacher.layout.Layout layout = new frontend.teacher.layout.Layout();
+                        layout.frame.setVisible(true);
+                    } else {
+                        frontend.student.layout.Layout layout = new frontend.student.layout.Layout();
+                        layout.frame.setVisible(true);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Нууц үг буруу");
                 }

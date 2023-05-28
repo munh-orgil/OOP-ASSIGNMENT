@@ -1,4 +1,4 @@
-package frontend.screens;
+package frontend.student;
 
 import java.awt.BorderLayout;
 import java.awt.Choice;
@@ -32,7 +32,7 @@ public class Questions extends JPanel {
             questionTitle.setFont(getFont().deriveFont(20f));
             JPanel questionPanel = new JPanel(new BorderLayout());
             questionPanel.add(questionTitle, BorderLayout.NORTH);
-            questionPanel.add(new frontend.screens.Choices(question), BorderLayout.SOUTH);
+            questionPanel.add(new frontend.student.Choices(question), BorderLayout.SOUTH);
             questionPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
 
             add(questionPanel);

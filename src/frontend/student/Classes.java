@@ -1,4 +1,4 @@
-package frontend.screens;
+package frontend.student;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,8 +25,8 @@ import javax.swing.text.LayoutQueue;
 import backend.Model;
 import backend.models.Students;
 import frontend.modules.Modules;
-import frontend.screens.exams.Exams;
-import frontend.screens.layout.Layout;
+import frontend.student.exams.Exams;
+import frontend.student.layout.Layout;
 import frontend.widgets.CustomButton;
 
 public class Classes {

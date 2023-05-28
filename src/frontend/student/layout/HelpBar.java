@@ -1,4 +1,4 @@
-package frontend.screens.layout;
+package frontend.student.layout;
 
 import java.awt.Color;
 import java.awt.Dimension;

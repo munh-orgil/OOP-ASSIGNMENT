@@ -3,9 +3,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import frontend.screens.Login;
-import frontend.screens.SignUp;
-
 // import frontend.screens.CenteredLoginExample;
 
 public class Frontend extends JFrame {

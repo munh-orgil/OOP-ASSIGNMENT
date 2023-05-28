@@ -1,4 +1,4 @@
-package frontend.screens;
+package frontend;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +9,6 @@ import javax.swing.*;
 import backend.Model;
 import backend.models.Logins;
 import backend.models.Users;
-import frontend.Frontend;
 import frontend.widgets.CustomButton;
 
 public class SignUp implements ActionListener {

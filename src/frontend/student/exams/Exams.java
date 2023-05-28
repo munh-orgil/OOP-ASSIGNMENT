@@ -1,4 +1,4 @@
-package frontend.screens.exams;
+package frontend.student.exams;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,8 +17,8 @@ import backend.Model;
 import backend.models.Classes;
 import backend.models.Students;
 import frontend.modules.Modules;
-import frontend.screens.Questions;
-import frontend.screens.layout.Layout;
+import frontend.student.Questions;
+import frontend.student.layout.Layout;
 import frontend.widgets.CustomButton;
 
 public class Exams extends JPanel {

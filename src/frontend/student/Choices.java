@@ -1,4 +1,4 @@
-package frontend.screens;
+package frontend.student;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

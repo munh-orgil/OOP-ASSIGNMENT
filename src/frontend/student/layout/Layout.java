@@ -1,4 +1,4 @@
-package frontend.screens.layout;
+package frontend.student.layout;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-import frontend.screens.Classes;
-import frontend.screens.exams.Exams;
+import frontend.student.Classes;
+import frontend.student.exams.Exams;
 
 public class Layout {
     public static JFrame frame = new JFrame();

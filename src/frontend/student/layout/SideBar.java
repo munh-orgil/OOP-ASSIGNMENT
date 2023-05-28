@@ -1,4 +1,4 @@
-package frontend.screens.layout;
+package frontend.student.layout;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import frontend.screens.exams.Exams;
+import frontend.student.exams.Exams;
 import frontend.widgets.CustomButton;
 
 public class SideBar {
