@@ -1,63 +1,87 @@
 package frontend.teacher;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.text.NumberFormat;
 
 public class AddExam extends JPanel {
+
+    private JPanel questionPanel;
     private JButton addQuestionButton;
-    private JPanel containerPanel;
+    private JComboBox<String> dayComboBox;
+    private JComboBox<String> monthComboBox;
+    private JComboBox<String> yearComboBox;
+    private JSpinner timeSpinner;
+    private JFormattedTextField durationField;
 
     public AddExam() {
         setLayout(new BorderLayout());
 
-        // Create a panel to hold the containers
-        containerPanel = new JPanel();
-        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+        questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 
-        // Create a QuestionContainer
-        QuestionContainer questionContainer = new QuestionContainer();
-
-        // Create a FormContainer
-        FormContainer formContainer = new FormContainer();
-
-        // Add the containers to the container panel
-        containerPanel.add(questionContainer);
-        containerPanel.add(formContainer);
-
-        // Create the "Add Question" button
+        
         addQuestionButton = new JButton("Add Question");
         addQuestionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                QuestionContainer newQuestionContainer = new QuestionContainer();
-                containerPanel.add(newQuestionContainer);
-                revalidate();
-                repaint();
+                addQuestionContainer();
             }
         });
+        add(addQuestionButton, BorderLayout.SOUTH);
 
-        // Create a scroll pane to hold the container panel
-        JScrollPane scrollPane = new JScrollPane(containerPanel);
+        // Create the date components
+        String[] days = new String[31];
+        for (int i = 0; i < 31; i++) {
+            days[i] = String.valueOf(i + 1);
+        }
+        dayComboBox = new JComboBox<>(days);
 
-        // Add components to the main panel
-        add(addQuestionButton, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
+        String[] months = new String[]{
+                "January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"
+        };
+        monthComboBox = new JComboBox<>(months);
+
+        // Create the time component
+        SpinnerDateModel spinnerModel = new SpinnerDateModel();
+        timeSpinner = new JSpinner(spinnerModel);
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
+        timeSpinner.setEditor(timeEditor);
+
+        // Create the duration component
+        NumberFormat format = NumberFormat.getIntegerInstance();
+        format.setGroupingUsed(false);
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        durationField = new JFormattedTextField(formatter);
+        durationField.setColumns(7); // Set minimum width to 60 pixels
+
+        JPanel pickerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        pickerPanel.add(new JLabel("Date: "));
+        pickerPanel.add(dayComboBox);
+        pickerPanel.add(monthComboBox);
+        pickerPanel.add(new JLabel("Time: "));
+        pickerPanel.add(timeSpinner);
+        pickerPanel.add(new JLabel("Duration: "));
+        pickerPanel.add(durationField);
+
+        add(pickerPanel, BorderLayout.NORTH);
+
     }
+
+    private void addQuestionContainer() {
+        QuestionContainer questionContainer = new QuestionContainer();
+        questionPanel.add(questionContainer);
+        questionPanel.revalidate();
+        questionPanel.repaint();
+    }
+
 }
