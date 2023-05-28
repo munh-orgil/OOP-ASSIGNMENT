@@ -5,8 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
+import frontend.Frontend;
 import frontend.modules.Modules;
 
 public class Header {
@@ -52,6 +56,19 @@ public class Header {
 
         JMenuItem item1 = new JMenuItem("Profile");
         JMenuItem item2 = new JMenuItem("Log Out");
+
+        item2.addActionListener(new ActionListener() {
+             
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frontend.student.layout.Layout layout = new frontend.student.layout.Layout();
+                layout.frame.setVisible(false);
+                Frontend.frame.setVisible(true);
+
+                // Login login = new Login();
+                // login.frame.setVisible(true);
+            }
+        });
 
         menu.add(item1);
         menu.add(item2);
