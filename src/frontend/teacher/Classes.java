@@ -1,8 +1,6 @@
 package frontend.teacher;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -14,12 +12,10 @@ import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 import backend.Model;
 import frontend.modules.Modules;
@@ -134,9 +130,9 @@ public class Classes extends JPanel {
                 classButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent ae) {
-                        // Exams exam = new Exams(classes.Id);
-                        // Layout.contentPanel.add(exam, "exams");
-                        // Layout.cardLayout.show(Layout.contentPanel, "exams");
+                        Exams exam = new Exams(classes.Id);
+                        Layout.contentPanel.add(exam, "exams");
+                        Layout.cardLayout.show(Layout.contentPanel, "exams");
                     }
                 });
             }
