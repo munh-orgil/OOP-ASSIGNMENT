@@ -72,7 +72,7 @@ public class Login implements ActionListener {
         loginButton.addActionListener(this);
         signUpButton.addActionListener(this);
         
-        usernameField.setText("bagsh");
+        usernameField.setText("muug");
         passwordField.setText("1234");
         // frame.setSize(600, 480);
     }

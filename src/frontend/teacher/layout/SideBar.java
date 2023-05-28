@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import backend.Model;
 import backend.models.Users;
 import frontend.teacher.Classes;
+import frontend.teacher.Exams;
+import frontend.teacher.Students;
 import frontend.widgets.CustomButton;
 
 public class SideBar {
@@ -51,6 +53,8 @@ public class SideBar {
         examButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                Exams exams = new Exams(0);
+                Layout.contentPanel.add(exams, "exams");
                 Layout.cardLayout.show(Layout.contentPanel, "exams");
             }
         });
@@ -58,30 +62,9 @@ public class SideBar {
         studentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                // Retrieve user data from the database
-                List<Users> userList = Model.List(Users.class, new Users());
-
-                // Create the column names array
-                String[] columnNames = {"Username", "Last Name"};
-
-                // Create the data array for the table
-                Object[][] data = new Object[userList.size()][2];
-
-                // Populate the data array with user information
-                for (int i = 0; i < userList.size(); i++) {
-                    Users user = userList.get(i);
-                    data[i][0] = user.RegNo;
-                    data[i][1] = user.LastName;
-                }
-
-                // Create the DefaultTableModel with the data and column names
-                DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-
-                // Create the JTable with the DefaultTableModel
-                JTable userTable = new JTable(tableModel);
-
-                // Display the JTable in a dialog
-                JOptionPane.showMessageDialog(null, new JScrollPane(userTable), "User Information", JOptionPane.PLAIN_MESSAGE);
+                Students students = new Students();
+                Layout.contentPanel.add(students, "students");
+                Layout.cardLayout.show(Layout.contentPanel, "students");
             }
         });
     }

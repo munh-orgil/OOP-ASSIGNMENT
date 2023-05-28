@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import backend.Model;
+import backend.models.Students;
 import frontend.modules.Modules;
 import frontend.teacher.layout.Layout;
 import frontend.widgets.CustomButton;
@@ -107,6 +109,13 @@ public class Classes extends JPanel {
                 delete.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent ae) {
+                        Students studentsFilter = new Students();
+                        studentsFilter.ClassId = classes.Id;
+                        Vector<Students> students = Model.List(Students.class, studentsFilter);
+
+                        for(Students student: students) {
+                            Model.Delete(student);
+                        }
                         Model.Delete(classes);
 
                         Classes classes = new Classes();

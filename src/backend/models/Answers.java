@@ -4,5 +4,7 @@ public class Answers {
     public Integer Id;
     public Integer ExamId;
     public Integer QuestionId;
-    public Integer AnswerId;
+    public Integer UserId;
+    public String Text;
+    public Integer ChoiceId;
 }

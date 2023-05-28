@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import backend.Model;
+import backend.models.Answers;
 import backend.models.Classes;
 import backend.models.Students;
 import frontend.modules.Modules;
@@ -70,11 +71,19 @@ public class Exams extends JPanel {
             LocalTime now = LocalTime.now();
             for(int j = 0; j < examList.size(); j++) {
                 backend.models.Exams exam = examList.get(j);
+                Answers answersFilter = new Answers();
+                answersFilter.ExamId = exam.Id;
+                Vector<Answers> answersList = Model.List(Answers.class, answersFilter);
+                if(answersList.size() > 0) {
+                    overExamList.add(exam);
+                    continue;
+                }
+
                 int res = LocalDate.parse(exam.EndDate).compareTo(today);
                 if(res == 0) {
                     res = LocalTime.parse(exam.EndTime).compareTo(now);
                 }
-                if(res > 0) {
+                if(res < 0) {
                     overExamList.add(exam);
                 } else {
                     comingExamList.add(exam);
