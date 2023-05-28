@@ -57,7 +57,7 @@ public class SwingCalendar extends JPanel {
         }
         });
 
-        String [] columns = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+        String [] columns = {"Дав","Мяг","Лха","Пүр","Баа","Бям","Ням"};
         model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -91,7 +91,7 @@ public class SwingCalendar extends JPanel {
     void updateMonth() {
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
-        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         int year = cal.get(Calendar.YEAR);
         label.setText(month + " " + year);
 
@@ -102,9 +102,12 @@ public class SwingCalendar extends JPanel {
         model.setRowCount(0);
         model.setRowCount(weeks);
 
-        int i = startDay - 1;
+        int i = startDay - 2;
         for(int day = 1; day <= numberOfDays; day++){
-            model.setValueAt(day, i / 7 , i % 7);    
+            model.setValueAt(day, i / 7 , i % 7);
+            if(day == 1) {
+                System.out.println(i);
+            }
             i = i + 1;
         }
         Calendar currentDate = Calendar.getInstance();
