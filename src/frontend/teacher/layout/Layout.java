@@ -39,9 +39,7 @@ public class Layout {
         contentPanel.setBackground(Color.WHITE);
         contentPanel.setLayout(cardLayout);
 
-        Classes classes = new Classes();
-        contentPanel.add(classes, "classes");
-        
+        contentPanel.add(new Classes(), "classes");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());

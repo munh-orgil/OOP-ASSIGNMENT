@@ -1,11 +1,16 @@
 package frontend.teacher;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.*;
 
 import backend.Model;
 import backend.models.Users;
+import frontend.modules.Modules;
+import frontend.teacher.layout.Layout;
+import frontend.widgets.CustomButton;
 import frontend.widgets.DualListBoxPanel;
  
 public class CreateClasses extends JPanel {
@@ -52,8 +57,10 @@ public class CreateClasses extends JPanel {
 
     DefaultListModel<String> listModel = new DefaultListModel<>();
 
+    Integer idx = 0;
     for(Users user: users) {
-      listModel.addElement(user.FirstName);
+      idx++;
+      listModel.addElement(idx.toString() + ". " + user.FirstName);
     }
 
     dualListPanel.addSourceElements(listModel);
@@ -63,6 +70,46 @@ public class CreateClasses extends JPanel {
     constraints.gridwidth = 2;
     add(dualListPanel, constraints);
 
-    
+    CustomButton createClass = new CustomButton("Үүсгэх", 200, 50);
+    createClass.setRadius(20);
+    constraints.gridx = 0;
+    constraints.gridy = 4;
+    add(createClass, constraints);
+
+    createClass.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent ae) {
+        backend.models.Classes newClass = new backend.models.Classes();
+        newClass.Name = ClassNameField.getText();
+        newClass.Description = DescField.getText();
+        newClass.TeacherId = Modules.user.Id;
+        int classId = Model.Create(newClass);
+        ListModel res = dualListPanel.getDestListModel();
+        
+        for(int i = 0; i < res.getSize(); i++) {
+          String val = (String) res.getElementAt(i);
+          String[] arr = val.split(". ");
+          Users user = users.get(Integer.parseInt(arr[0]) - 1);
+          backend.models.Students newStudent = new backend.models.Students();
+          newStudent.ClassId = classId;
+          newStudent.UserId = user.Id;
+          Model.Create(newStudent);
+        } 
+
+        Container container = createClass.getParent();
+        while (!(container instanceof JDialog) && container != null) {
+            container = container.getParent();
+        }
+
+        if (container instanceof JDialog) {
+          JDialog dialog = (JDialog) container;
+          dialog.dispose();
+        }
+        
+        Classes classes = new Classes();
+        Layout.contentPanel.add(classes, "classes");
+        Layout.cardLayout.show(Layout.contentPanel, "classes");
+      }
+    });
   }
 }

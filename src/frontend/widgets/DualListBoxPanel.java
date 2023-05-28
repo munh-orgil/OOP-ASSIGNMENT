@@ -42,6 +42,10 @@ public class DualListBoxPanel extends JPanel {
     initScreen();
   }
 
+  public SortedListModel getDestListModel() {
+    return destListModel;
+  }
+
   public String getSourceChoicesTitle() {
     return sourceLabel.getText();
   }
