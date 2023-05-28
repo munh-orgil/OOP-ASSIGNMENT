@@ -52,7 +52,7 @@ public class Classes extends JPanel {
                 cardLayout.show(innerPanel, "CreateClasses");
             }
         });
-
+        
         if(classesList.size() == 0){
             JPanel noClassPanel = new JPanel(new BorderLayout());
             JLabel noClassLabel = new JLabel("Та ангигүй байна");
