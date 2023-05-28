@@ -11,7 +11,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import frontend.screens.Classes;
-import frontend.screens.Exams;
+import frontend.screens.exams.Exams;
 
 public class Layout {
     public static JFrame frame = new JFrame();
@@ -44,7 +44,7 @@ public class Layout {
         Classes classes = new Classes();
         
         contentPanel.add(classes.classesPanel, "classes");
-        contentPanel.add(exams.examsPanel, "exams");
+        contentPanel.add(exams, "exams");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());

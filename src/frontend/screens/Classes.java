@@ -25,6 +25,7 @@ import javax.swing.text.LayoutQueue;
 import backend.Model;
 import backend.models.Students;
 import frontend.modules.Modules;
+import frontend.screens.exams.Exams;
 import frontend.screens.layout.Layout;
 import frontend.widgets.CustomButton;
 
@@ -66,7 +67,7 @@ public class Classes {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
                     Exams exam = new Exams(student.ClassId);
-                    Layout.contentPanel.add(exam.examsPanel, "exams");
+                    Layout.contentPanel.add(exam, "exams");
                     Layout.cardLayout.show(Layout.contentPanel, "exams");
                 }
             });

@@ -15,15 +15,11 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
-import javax.swing.CellRendererPane;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -105,14 +101,11 @@ public class SwingCalendar extends JPanel {
         int i = startDay - 2;
         for(int day = 1; day <= numberOfDays; day++){
             model.setValueAt(day, i / 7 , i % 7);
-            if(day == 1) {
-                System.out.println(i);
-            }
             i = i + 1;
         }
         Calendar currentDate = Calendar.getInstance();
         int firstDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-
+        
         int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
         int currentRow = (currentDay + firstDayOfMonth - 2) / 7;
         int currentCol = (currentDay + firstDayOfMonth - 2) % 7;
