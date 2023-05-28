@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import frontend.teacher.Classes;
+
 public class Layout {
     public static JFrame frame = new JFrame();
     public JPanel layoutPanel = new JPanel(new GridBagLayout());
@@ -37,12 +39,19 @@ public class Layout {
         contentPanel.setBackground(Color.WHITE);
         contentPanel.setLayout(cardLayout);
 
+        Classes classes = new Classes();
+        contentPanel.add(classes.classesPanel, "classes");
+        cardLayout.show(Layout.contentPanel, "classes");
+        
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
         JScrollPane scrollableContent = new JScrollPane(contentPanel);
         JScrollBar verticalScrollBar = scrollableContent.getVerticalScrollBar();
         verticalScrollBar.setUnitIncrement(20);
+
+        
 
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(sidebarPanel, BorderLayout.WEST);
