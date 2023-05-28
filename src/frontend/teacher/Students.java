@@ -1,4 +1,4 @@
-package frontend.teacher.layout;
+package frontend.teacher;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,16 +17,17 @@ import javax.swing.table.DefaultTableModel;
 
 import backend.Model;
 import backend.models.Users;
+import frontend.student.layout.Layout;
 import frontend.teacher.Classes;
 import frontend.widgets.CustomButton;
 
-public class SideBar {
+public class Students {
     public JPanel sideBar = new JPanel(new BorderLayout());
-    
-    public SideBar() {
+
+    public Students() {
         sideBar.setPreferredSize(new Dimension(250, Layout.frame.getHeight() / 2 - 100));
         sideBar.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
-     
+
         JPanel emptyPanel = new JPanel(new BorderLayout());
         emptyPanel.setBorder(BorderFactory.createEmptyBorder(30, 240, 0, 0));
         sideBar.add(emptyPanel);
@@ -38,7 +39,7 @@ public class SideBar {
         navPanel.add(classButton);
         navPanel.add(examButton);
         navPanel.add(studentButton);
-        
+
         sideBar.add(navPanel);
 
         classButton.addActionListener(new ActionListener() {
