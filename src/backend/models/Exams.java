@@ -8,17 +8,22 @@ public class Exams implements Comparable<Exams> {
     public String Title;
     public String Description;
     public Integer ClassId;
-    public LocalDate StartDate;
-    public LocalTime StartTime;
+    public String StartDate;
+    public String StartTime;
     public Integer Duration;
-    public LocalDate EndDate;
-    public LocalTime EndTime;
+    public String EndDate;
+    public String EndTime;
 
     @Override
     public int compareTo(Exams e) {
-        int res = StartDate.compareTo(e.StartDate);
+        LocalDate date = LocalDate.parse(StartDate);
+        LocalDate edate = LocalDate.parse(e.StartDate);
+        LocalTime time = LocalTime.parse(e.StartTime);
+        LocalTime etime = LocalTime.parse(e.StartTime);
+
+        int res = date.compareTo(edate);
         if(res == 0) {
-            return StartTime.compareTo(e.StartTime);
+            return time.compareTo(etime);
         }
         return res;
     }

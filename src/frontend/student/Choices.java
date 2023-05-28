@@ -1,6 +1,7 @@
 package frontend.student;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Vector;
 
@@ -13,6 +14,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import backend.Model;
+import frontend.modules.Modules;
+import frontend.widgets.CustomTextField;
 
 public class Choices extends JPanel {
     public Choices(backend.models.Questions question) {
@@ -33,8 +36,11 @@ public class Choices extends JPanel {
                 break;
             }
             case "text": {
-                JPanel panel = new JPanel(new FlowLayout());
-                panel.add(new JTextField(15));
+                JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+                CustomTextField textField = new CustomTextField(50);
+                textField.setPlaceholderText("test");
+                textField.setPreferredSize(new Dimension((int)(Modules.screenWidth * 0.4), 60));
+                panel.add(textField);
                 add(panel);
                 break;
             }

@@ -35,11 +35,6 @@ public class Frontend extends JFrame {
         int x = (screenWidth - width) / 2;
         int y = (screenHeight - height) / 2;
 
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println(screenWidth);
-        System.out.println(screenHeight);
-
         Point res = new Point(x, y);
 
         return res;

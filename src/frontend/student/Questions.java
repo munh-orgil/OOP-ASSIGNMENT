@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import backend.Model;
+import frontend.modules.Modules;
 
 public class Questions extends JPanel {
     public Questions(int examId) {
@@ -34,6 +35,7 @@ public class Questions extends JPanel {
             questionPanel.add(questionTitle, BorderLayout.NORTH);
             questionPanel.add(new frontend.student.Choices(question), BorderLayout.SOUTH);
             questionPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
+            questionPanel.setMaximumSize(Modules.getPreferredHeight(questionPanel, (int)(Modules.screenWidth * 0.55)));
 
             add(questionPanel);
         }

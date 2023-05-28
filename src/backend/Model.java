@@ -108,6 +108,7 @@ public class Model {
                 queryString += filterString;
             }
 
+            queryString += " order by id";
             System.out.println(queryString);
 
             Statement prst = db.createStatement();

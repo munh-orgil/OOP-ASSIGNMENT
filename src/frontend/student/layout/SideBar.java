@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import frontend.modules.Modules;
 import frontend.student.exams.Exams;
 import frontend.widgets.CustomButton;
 
@@ -17,12 +18,8 @@ public class SideBar {
     public JPanel sideBar = new JPanel(new BorderLayout());
     
     public SideBar() {
-        sideBar.setPreferredSize(new Dimension(250, Layout.frame.getHeight() / 2 - 100));
+        sideBar.setPreferredSize(new Dimension((int)(Modules.screenWidth * 0.15), 0));
         sideBar.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
-     
-        JPanel emptyPanel = new JPanel(new BorderLayout());
-        emptyPanel.setBorder(BorderFactory.createEmptyBorder(30, 240, 0, 0));
-        sideBar.add(emptyPanel);
 
         JPanel navPanel = new JPanel(new GridLayout(10, 1));
         CustomButton classButton = new CustomButton("Хичээлүүд", sideBar.getWidth(), 0);

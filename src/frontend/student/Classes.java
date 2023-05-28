@@ -52,7 +52,7 @@ public class Classes {
                 classes.get(0).Description = "";
             }
             String text = "<html><body style='padding:20'>" + classes.get(0).Name + "<br>" + classes.get(0).Description + "</body></html>";
-            CustomButton classButton = new CustomButton(text, Modules.screenWidth - 600, 100);
+            CustomButton classButton = new CustomButton(text, (int)(Modules.screenWidth * 0.55), 100);
             Font font = classButton.getFont();
             float fontSize = font.getSize() + 6.0f;
             Font newFont = font.deriveFont(fontSize);

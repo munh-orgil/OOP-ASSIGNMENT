@@ -97,10 +97,8 @@ public class Login implements ActionListener {
                     }
                 }
                 if(userLogin.Password.equals(passValue)) {
-                    Vector<Logins> getUser = Model.List(Logins.class, userLogin);
-                    int userId = getUser.get(0).UserId;
                     Users findUser = new Users();
-                    findUser.Id = userId;
+                    findUser.Id = userLogin.UserId;
                     Vector<Users> theUser = Model.List(Users.class, findUser);
                     Modules.user = theUser.get(0);
                     if(Objects.isNull(userLogin.ProfileImagePath)) {

@@ -24,6 +24,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import frontend.modules.Modules;
+
 public class SwingCalendar extends JPanel {
  
     DefaultTableModel model;
@@ -71,8 +73,8 @@ public class SwingCalendar extends JPanel {
 
 
         this.updateMonth();
-        pane.setPreferredSize(new Dimension(280, (table.getRowCount() + 1) * 45));
-        this.setPreferredSize(new Dimension(280, (table.getRowCount() + 1) * 45 + 40));
+        pane.setPreferredSize(new Dimension((int)(Modules.screenWidth * 0.175), (table.getRowCount() + 1) * 45));
+        this.setPreferredSize(new Dimension((int)(Modules.screenWidth * 0.175), (table.getRowCount() + 1) * 45 + 40));
 
         this.setLayout(new BorderLayout());
         JPanel emptyPanel = new JPanel(new BorderLayout());
