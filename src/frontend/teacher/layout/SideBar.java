@@ -26,26 +26,28 @@ public class SideBar {
         JPanel navPanel = new JPanel(new GridLayout(10, 1));
         CustomButton classButton = new CustomButton("Хичээлүүд", sideBar.getWidth(), 0);
         CustomButton examButton = new CustomButton("Шалгалтууд", sideBar.getWidth(), 0);
+        CustomButton studentButton = new CustomButton("Сурагчид", sideBar.getWidth(), 0);
         navPanel.add(classButton);
         navPanel.add(examButton);
+        navPanel.add(studentButton);
         
         sideBar.add(navPanel);
 
-        // classButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent ae) {
+        classButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
 
-        //         Layout.cardLayout.show(Layout.contentPanel, "classes");
-        //     }
-        // });
-        // examButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent ae) {
-        //         Exams exam = new Exams(0);
+                Layout.cardLayout.show(Layout.contentPanel, "classes");
+            }
+        });
+        examButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                // Exams exam = new Exams(0);
                 
-        //         Layout.contentPanel.add(exam, "exams");
-        //         Layout.cardLayout.show(Layout.contentPanel, "exams");
-        //     }
-        // });
+                // Layout.contentPanel.add(exam, "exams");
+                Layout.cardLayout.show(Layout.contentPanel, "exams");
+            }
+        });
     }
 }
