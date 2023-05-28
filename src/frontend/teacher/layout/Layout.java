@@ -40,8 +40,7 @@ public class Layout {
         contentPanel.setLayout(cardLayout);
 
         Classes classes = new Classes();
-        contentPanel.add(classes.classesPanel, "classes");
-        cardLayout.show(Layout.contentPanel, "classes");
+        contentPanel.add(classes, "classes");
         
 
         JPanel mainPanel = new JPanel();

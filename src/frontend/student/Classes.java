@@ -44,10 +44,10 @@ public class Classes {
         for(Students student: students) {
             backend.models.Classes classFilter = new backend.models.Classes();
             classFilter.Id = student.ClassId;
+            Vector<backend.models.Classes> classes = Model.List(backend.models.Classes.class, classFilter);
 
             FlowLayout fl = new FlowLayout(FlowLayout.CENTER);
             JPanel panel = new JPanel(fl);
-            Vector<backend.models.Classes> classes = Model.List(backend.models.Classes.class, classFilter);
             if(Objects.isNull(classes.get(0).Description)) {
                 classes.get(0).Description = "";
             }

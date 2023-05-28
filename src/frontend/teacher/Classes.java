@@ -31,72 +31,74 @@ import frontend.student.exams.Exams;
 import frontend.student.layout.Layout;
 import frontend.widgets.CustomButton;
 
-public class Classes {
-    public JPanel classesPanel = new JPanel();
-    public CardLayout classesCardLayout = new CardLayout(0, 0);
+public class Classes extends JPanel {
+    public static CardLayout cardLayout = new CardLayout();
+    public static JPanel innerPanel = new JPanel();
 
     public Classes() {
-        // BoxLayout bl = new BoxLayout(classesPanel, BoxLayout.Y_AXIS);
-        // classesPanel.setLayout(bl);
-        
+        innerPanel.setLayout(cardLayout);
         backend.models.Classes classFilter = new backend.models.Classes();
         classFilter.TeacherId = Modules.user.Id;
-        Vector<backend.models.Classes> classes = Model.List(backend.models.Classes.class, classFilter);
-        GridLayout gl = new GridLayout(classes.size() + 4, 1);
-        classesPanel.setLayout(gl);
+        Vector<backend.models.Classes> classesList = Model.List(backend.models.Classes.class, classFilter);
+        
+        BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(bl);
+        
+        CustomButton addClass = new CustomButton("анги нэмэх", (int)(Modules.screenWidth * 0.55), 100);
+        add(addClass);
+        addClass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                cardLayout.show(innerPanel, "CreateClasses");
+            }
+        });
 
-        CustomButton addClass = new CustomButton("анги нэмэх", Modules.screenWidth - 600, 100);
+        if(classesList.size() == 0){
+            JPanel noClassPanel = new JPanel(new BorderLayout());
+            JLabel noClassLabel = new JLabel("Та ангигүй байна");
+            Font font = noClassLabel.getFont();
+            noClassLabel.setFont(font.deriveFont(30f));
+            noClassPanel.add(noClassLabel, BorderLayout.CENTER);
+            // noClassPanel.setPreferredSize(Modules.getPreferredHeight(noClassPanel, (int)(Modules.screenWidth * 0.30)));
+            innerPanel.add(noClassPanel, "noClass");
+            innerPanel.add(CreateClasses.panel, "createClasses");
+        }
+        else {
+            JPanel teacherClassPanel = new JPanel();
+            BoxLayout teacherClassLayout = new BoxLayout(teacherClassPanel, BoxLayout.Y_AXIS);
+            teacherClassPanel.setLayout(teacherClassLayout);
+            
+            for(backend.models.Classes classes : classesList) {
+                FlowLayout fl = new FlowLayout(FlowLayout.CENTER);
+                JPanel panel = new JPanel(fl);
+                if(Objects.isNull(classes.Description)) {
+                    classes.Description = "";
+                }
+                String text = "<html><body style='padding:20'>" + classes.Name + "<br>" + classes.Description + "</body></html>";
+                CustomButton classButton = new CustomButton(text, (int)(Modules.screenWidth * 0.55), 100);
+                Font font = classButton.getFont();
+                float fontSize = font.getSize() + 6.0f;
+                Font newFont = font.deriveFont(fontSize);
+                classButton.setHorizontalAlignment(SwingConstants.LEFT);
+                classButton.setFont(newFont);
+                classButton.setRadius(20);
 
-            addClass.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    classesPanel.add(CreateClasses.panel, "CreateClasses");
-                    classesCardLayout.show(Layout.contentPanel, "CreateClasses");
+                panel.add(classButton);
+                teacherClassPanel.add(panel, BorderLayout.CENTER);
+
+                classButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        // Exams exam = new Exams(classes.Id);
+                        // Layout.contentPanel.add(exam, "exams");
+                        // Layout.cardLayout.show(Layout.contentPanel, "exams");
                     }
                 });
+            }
 
-            FlowLayout fl = new FlowLayout(FlowLayout.CENTER);
-            JPanel panel = new JPanel(fl);
-            panel.add(addClass);
-            classesPanel.add(panel, BorderLayout.CENTER);
-
-
-        if(classes.size() == 0){
-            JLabel labelaaa = new JLabel("tng al", null, 0);
-            panel.add(labelaaa);
-        } 
-        else{
-        // for(Students student: students) {
-        //     backend.models.Classes classFilter = new backend.models.Classes();
-        //     classFilter.Id = student.ClassId;
-
-            
-        //     JPanel panel = new JPanel(fl);
-        //     Vector<backend.models.Classes> classes = Model.List(backend.models.Classes.class, classFilter);
-        //     if(Objects.isNull(classes.get(0).Description)) {
-        //         classes.get(0).Description = "";
-        //     }
-        //     String text = "<html><body style='padding:20'>" + classes.get(0).Name + "<br>" + classes.get(0).Description + "</body></html>";
-        //     CustomButton classButton = new CustomButton(text, Modules.screenWidth - 600, 100);
-        //     Font font = classButton.getFont();
-        //     float fontSize = font.getSize() + 6.0f;
-        //     Font newFont = font.deriveFont(fontSize);
-        //     classButton.setHorizontalAlignment(SwingConstants.LEFT);
-        //     classButton.setFont(newFont);
-        //     classButton.setRadius(20);
-
-        //     panel.add(classButton);
-        //     classesPanel.add(panel, BorderLayout.CENTER);
-            
-            // classButton.addActionListener(new ActionListener() {
-            //     @Override
-            //     public void actionPerformed(ActionEvent ae) {
-            //         Exams exam = new Exams(student.ClassId);
-            //         Layout.contentPanel.add(exam, "exams");
-            //         Layout.cardLayout.show(Layout.contentPanel, "exams");
-            //         }
-            //     });
-        //     }
+            innerPanel.add(teacherClassPanel, "teacherClasses");
+            innerPanel.add(CreateClasses.panel, "createClasses");
         }
+        add(innerPanel);
     }
 }
