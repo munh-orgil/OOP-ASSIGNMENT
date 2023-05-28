@@ -106,6 +106,8 @@ public class Login implements ActionListener {
                     }
                     Modules.login = userLogin;
 
+                    System.out.println(userLogin);
+
                     Frontend.frame.setVisible(false);
                     if(userLogin.isTeacher == 1) {
                         frontend.teacher.layout.Layout layout = new frontend.teacher.layout.Layout();

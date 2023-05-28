@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -10,15 +11,19 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
+
+import backend.models.Users;
 
 public class DualListBoxPanel extends JPanel {
 
@@ -30,9 +35,9 @@ public class DualListBoxPanel extends JPanel {
   private static final String DEFAULT_DEST_CHOICE_LABEL = "Your Choices";
 
   private JLabel sourceLabel;
-  private JList sourceList;
+  private JList<Users> sourceList;
   private SortedListModel sourceListModel;
-  private JList destList;
+  private JList<Users> destList;
   private SortedListModel destListModel;
   private JLabel destLabel;
   private CustomButton addButton;
@@ -70,40 +75,40 @@ public class DualListBoxPanel extends JPanel {
     destListModel.clear();
   }
 
-  public void addSourceElements(ListModel newValue) {
+  public void addSourceElements(ListModel<Users> newValue) {
     fillListModel(sourceListModel, newValue);
   }
 
-  public void setSourceElements(ListModel newValue) {
+  public void setSourceElements(ListModel<Users> newValue) {
     clearSourceListModel();
     addSourceElements(newValue);
   }
 
-  public void addDestinationElements(ListModel newValue) {
+  public void addDestinationElements(ListModel<Users> newValue) {
     fillListModel(destListModel, newValue);
   }
 
-  private void fillListModel(SortedListModel model, ListModel newValues) {
+  private void fillListModel(SortedListModel model, ListModel<Users> newValues) {
     int size = newValues.getSize();
     for (int i = 0; i < size; i++) {
       model.add(newValues.getElementAt(i));
     }
   }
 
-  public void addSourceElements(Object newValue[]) {
+  public void addSourceElements(Users[] newValue) {
     fillListModel(sourceListModel, newValue);
   }
 
-  public void setSourceElements(Object newValue[]) {
+  public void setSourceElements(Users[] newValue) {
     clearSourceListModel();
     addSourceElements(newValue);
   }
 
-  public void addDestinationElements(Object newValue[]) {
+  public void addDestinationElements(Users[] newValue) {
     fillListModel(destListModel, newValue);
   }
 
-  private void fillListModel(SortedListModel model, Object newValues[]) {
+  private void fillListModel(SortedListModel model, Users[] newValues) {
     model.addAll(newValues);
   }
 
@@ -159,17 +164,25 @@ public class DualListBoxPanel extends JPanel {
   }
 
   private void clearSourceSelected() {
-    Object selected[] = sourceList.getSelectedValues();
-    for (int i = selected.length - 1; i >= 0; --i) {
-      sourceListModel.removeElement(selected[i]);
+    Vector<Users> selected = new Vector<>();
+    for (int i = 0; i < sourceList.getModel().getSize(); i++) {
+        selected.add(sourceList.getModel().getElementAt(i));
+    }
+
+    for (int i = selected.size() - 1; i >= 0; --i) {
+      sourceListModel.removeElement(selected.get(i));
     }
     sourceList.getSelectionModel().clearSelection();
   }
 
   private void clearDestinationSelected() {
-    Object selected[] = destList.getSelectedValues();
-    for (int i = selected.length - 1; i >= 0; --i) {
-      destListModel.removeElement(selected[i]);
+    Vector<Users> selected = new Vector<>();
+    for (int i = 0; i < destList.getModel().getSize(); i++) {
+        selected.add(destList.getModel().getElementAt(i));
+    }
+
+    for (int i = selected.size() - 1; i >= 0; --i) {
+      destListModel.removeElement(selected.get(i));
     }
     destList.getSelectionModel().clearSelection();
   }
@@ -217,7 +230,11 @@ public class DualListBoxPanel extends JPanel {
 
   private class AddListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-      Object selected[] = sourceList.getSelectedValues();
+      DefaultListModel<Users> selected = new DefaultListModel<>();
+      for (int i = 0; i < sourceList.getModel().getSize(); i++) {
+          selected.addElement(sourceList.getModel().getElementAt(i));
+      }
+
       addDestinationElements(selected);
       clearSourceSelected();
     }
@@ -225,7 +242,11 @@ public class DualListBoxPanel extends JPanel {
 
   private class RemoveListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-      Object selected[] = destList.getSelectedValues();
+      DefaultListModel<Users> selected = new DefaultListModel<>();
+      for (int i = 0; i < destList.getModel().getSize(); i++) {
+          selected.addElement(destList.getModel().getElementAt(i));
+      }
+      
       addSourceElements(selected);
       clearDestinationSelected();
     }
@@ -233,7 +254,7 @@ public class DualListBoxPanel extends JPanel {
 
   private class SortedListModel extends AbstractListModel {
 
-    SortedSet<Object> model;
+    SortedSet<Users> model;
 
     public SortedListModel() {
       model = new TreeSet<>();
@@ -247,14 +268,14 @@ public class DualListBoxPanel extends JPanel {
       return model.toArray()[index];
     }
 
-    public void add(Object element) {
+    public void add(Users element) {
       if (model.add(element)) {
         fireContentsChanged(this, 0, getSize());
       }
     }
 
-    public void addAll(Object elements[]) {
-      Collection<Object> c = Arrays.asList(elements);
+    public void addAll(Users elements[]) {
+      Collection<Users> c = Arrays.asList(elements);
       model.addAll(c);
       fireContentsChanged(this, 0, getSize());
     }
@@ -264,23 +285,23 @@ public class DualListBoxPanel extends JPanel {
       fireContentsChanged(this, 0, getSize());
     }
 
-    public boolean contains(Object element) {
+    public boolean contains(Users element) {
       return model.contains(element);
     }
 
-    public Object firstElement() {
+    public Users firstElement() {
       return model.first();
     }
 
-    public Iterator<Object> iterator() {
+    public Iterator<Users> iterator() {
       return model.iterator();
     }
 
-    public Object lastElement() {
+    public Users lastElement() {
       return model.last();
     }
 
-    public boolean removeElement(Object element) {
+    public boolean removeElement(Users element) {
       boolean removed = model.remove(element);
       if (removed) {
         fireContentsChanged(this, 0, getSize());
