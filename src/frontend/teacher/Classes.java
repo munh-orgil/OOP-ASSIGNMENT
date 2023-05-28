@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 
 import backend.Model;
 import frontend.modules.Modules;
+import frontend.teacher.layout.Layout;
 import frontend.widgets.CustomButton;
 
 public class Classes extends JPanel {
@@ -39,7 +40,7 @@ public class Classes extends JPanel {
         addClass.addActionListener(e -> {
             JOptionPane.showOptionDialog(
                 this,
-                new CreateClasses(),
+                new ClassesDialog(new backend.models.Classes(), false),
                 "Хичээл нэмэх",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.PLAIN_MESSAGE,
@@ -84,15 +85,39 @@ public class Classes extends JPanel {
 
                 CustomButton edit = new CustomButton("", 40, 40);
                 ImageIcon editIcon = new ImageIcon("./assets/edit.png");
-                Image scaledEditImage = editIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                Image scaledEditImage = editIcon.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT);
                 edit.setIcon(new ImageIcon(scaledEditImage));
                 edit.setRadius(100);
 
                 CustomButton delete = new CustomButton("", 40, 40);
                 ImageIcon deleteIcon = new ImageIcon("./assets/delete.png");
-                Image scaledDeleteImage = deleteIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                Image scaledDeleteImage = deleteIcon.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT);
                 delete.setIcon(new ImageIcon(scaledDeleteImage));
                 delete.setRadius(100);
+
+                edit.addActionListener(e -> {
+                    JOptionPane.showOptionDialog(
+                        this,
+                        new ClassesDialog(classes, true),
+                        "Хичээл засах",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        new Object[] {},
+                        null
+                    );
+                });
+
+                delete.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        Model.Delete(classes);
+
+                        Classes classes = new Classes();
+                        Layout.contentPanel.add(classes, "classes");
+                        Layout.cardLayout.show(Layout.contentPanel, "classes");
+                    }
+                });
 
                 JPanel editingPanel = new JPanel(new BorderLayout());
                 editingPanel.add(edit, BorderLayout.NORTH);
