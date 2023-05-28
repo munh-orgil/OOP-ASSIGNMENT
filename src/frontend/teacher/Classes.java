@@ -6,52 +6,50 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.text.LayoutQueue;
+import javax.swing.border.Border;
 
 import backend.Model;
-import backend.models.Students;
 import frontend.modules.Modules;
-import frontend.student.exams.Exams;
-import frontend.student.layout.Layout;
 import frontend.widgets.CustomButton;
 
 public class Classes extends JPanel {
-    public static CardLayout cardLayout = new CardLayout();
-    public static JPanel innerPanel = new JPanel();
-
     public Classes() {
-        innerPanel.setLayout(cardLayout);
+        BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(bl);
+        
         backend.models.Classes classFilter = new backend.models.Classes();
         classFilter.TeacherId = Modules.user.Id;
         Vector<backend.models.Classes> classesList = Model.List(backend.models.Classes.class, classFilter);
         
-        BoxLayout bl = new BoxLayout(this, BoxLayout.Y_AXIS);
-        setLayout(bl);
-        
-        CustomButton addClass = new CustomButton("анги нэмэх", (int)(Modules.screenWidth * 0.55), 100);
-        add(addClass);
-        addClass.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                cardLayout.show(innerPanel, "CreateClasses");
-            }
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        CustomButton addClass = new CustomButton("Анги нэмэх", (int)(Modules.screenWidth * 0.20), 80);
+        addClass.addActionListener(e -> {
+            JOptionPane.showOptionDialog(
+                this,
+                new CreateClasses(),
+                "Анги нэмэх",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                new Object[] {},
+                null
+            );
         });
+        addClass.setRadius(30);
+        buttonPanel.add(addClass);
+        buttonPanel.setMaximumSize(Modules.getPreferredHeight(buttonPanel, (int)(Modules.screenWidth * 0.55)));
+        add(buttonPanel);
         
         if(classesList.size() == 0){
             JPanel noClassPanel = new JPanel(new BorderLayout());
@@ -59,9 +57,8 @@ public class Classes extends JPanel {
             Font font = noClassLabel.getFont();
             noClassLabel.setFont(font.deriveFont(30f));
             noClassPanel.add(noClassLabel, BorderLayout.CENTER);
-            // noClassPanel.setPreferredSize(Modules.getPreferredHeight(noClassPanel, (int)(Modules.screenWidth * 0.30)));
-            innerPanel.add(noClassPanel, "noClass");
-            innerPanel.add(CreateClasses.panel, "createClasses");
+            noClassPanel.setMaximumSize(Modules.getPreferredHeight(noClassPanel, (int)(Modules.screenWidth * 0.55)));
+            add(noClassPanel);
         }
         else {
             JPanel teacherClassPanel = new JPanel();
@@ -96,9 +93,9 @@ public class Classes extends JPanel {
                 });
             }
 
-            innerPanel.add(teacherClassPanel, "teacherClasses");
-            innerPanel.add(CreateClasses.panel, "createClasses");
+            teacherClassPanel.setMaximumSize(Modules.getPreferredHeight(teacherClassPanel, (int)(Modules.screenWidth * 0.55)));
+            add(teacherClassPanel);
         }
-        add(innerPanel);
+        // setMaximumSize(Modules.getPreferredHeight(this, (int)(Modules.screenWidth * 0.55)));
     }
 }
