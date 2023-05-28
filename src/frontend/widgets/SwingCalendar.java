@@ -15,15 +15,11 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
-import javax.swing.CellRendererPane;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -57,7 +53,7 @@ public class SwingCalendar extends JPanel {
         }
         });
 
-        String [] columns = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+        String [] columns = {"Дав","Мяг","Лха","Пүр","Баа","Бям","Ням"};
         model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -91,7 +87,7 @@ public class SwingCalendar extends JPanel {
     void updateMonth() {
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
-        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         int year = cal.get(Calendar.YEAR);
         label.setText(month + " " + year);
 
@@ -102,14 +98,14 @@ public class SwingCalendar extends JPanel {
         model.setRowCount(0);
         model.setRowCount(weeks);
 
-        int i = startDay - 1;
+        int i = startDay - 2;
         for(int day = 1; day <= numberOfDays; day++){
-            model.setValueAt(day, i / 7 , i % 7);    
+            model.setValueAt(day, i / 7 , i % 7);
             i = i + 1;
         }
         Calendar currentDate = Calendar.getInstance();
         int firstDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-
+        
         int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
         int currentRow = (currentDay + firstDayOfMonth - 2) / 7;
         int currentCol = (currentDay + firstDayOfMonth - 2) % 7;

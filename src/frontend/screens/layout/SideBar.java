@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import frontend.screens.Exams;
+import frontend.screens.exams.Exams;
 import frontend.widgets.CustomButton;
 
 public class SideBar {
@@ -44,7 +44,7 @@ public class SideBar {
             public void actionPerformed(ActionEvent ae) {
                 Exams exam = new Exams(0);
                 
-                Layout.contentPanel.add(exam.examsPanel, "exams");
+                Layout.contentPanel.add(exam, "exams");
                 Layout.cardLayout.show(Layout.contentPanel, "exams");
             }
         });
