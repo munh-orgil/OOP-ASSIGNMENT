@@ -105,7 +105,7 @@ public class Login implements ActionListener {
                     Vector<Users> theUser = Model.List(Users.class, findUser);
                     Modules.user = theUser.get(0);
                     if(Objects.isNull(userLogin.ProfileImagePath)) {
-                        userLogin.ProfileImagePath = "E:/code/codes/Java/OOP-assignment/assets/profile.png";
+                        userLogin.ProfileImagePath = "./assets/profile.png";
                     }
                     Modules.login = userLogin;
 

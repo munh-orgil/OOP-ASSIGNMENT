@@ -32,7 +32,7 @@ public class Header {
         int height = 60;
         imageLabel.setPreferredSize(new Dimension(width, height));
 
-        ImageIcon logoImage = new ImageIcon("E:/code/codes/Java/OOP-assignment/assets/exammr.png");
+        ImageIcon logoImage = new ImageIcon("./assets/exammr.png");
         Image scaledImage = logoImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(scaledImage));
         JPanel emptyPanel = new JPanel(new BorderLayout());
